@@ -1,18 +1,76 @@
 import './QuestionPage.css';
+import { useState, type Dispatch, type SetStateAction } from 'react';
+import { questionBank } from '../../data/questions';
 
-function QuestionPage({ onShowResults }) {
+type QuestionPageProps = {
+    onShowResults: () => void;
+    answers: (number | null)[];
+    setAnswers: Dispatch<SetStateAction<(number | null)[]>>;
+};
+
+function QuestionPage({ onShowResults, answers, setAnswers }: QuestionPageProps) {
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const { question, choices } = questionBank[currentIndex];
+    const shouldShowResults = (idx: number) => idx + 1 === questionBank.length;
+
+    const selectChoice = (choiceIdx: number) => {
+        setAnswers(prev => {
+            const next = [...prev];
+            next[currentIndex] = choiceIdx;
+            return next;
+        });
+    };
+
+    const selectedChoiceIdx = answers[currentIndex];
+
+    function goToNext() {
+        if (!shouldShowResults(currentIndex)) {
+            setCurrentIndex(prev => prev + 1);
+        }
+    }
+
+    function goToPrev() {
+        if (currentIndex > 0) {
+            setCurrentIndex(prev => prev - 1);
+        }
+    }
+
     return (
         <div className="question-wrapper">
             <div className="question-container">
-                <div className="progress-indicator">Question 1/10</div>
-                <h2 className="question-text">This is a sample question?</h2>
-                <div className="answer-options">
-                    <button className="answer-button">Answer A</button>
-                    <button className="answer-button">Answer B</button>
-                    <button className="answer-button">Answer C</button>
-                    <button className="answer-button">Answer D</button>
+                <div className="progress-indicator">
+                    Question {currentIndex + 1}/{questionBank.length}
                 </div>
-                <button className="next-button" onClick={onShowResults}>Next</button>
+                <h2 className="question-text">{question}</h2>
+                <div className="answer-options">
+                    {choices.map((choice, index) => (
+                        <button
+                            key={`${choice}-${index}`}
+                            className={['answer-button', selectedChoiceIdx === index && 'selected']
+                                .filter(Boolean)
+                                .join(' ')}
+                            onClick={() => selectChoice(index)}
+                        >
+                            {choice}
+                        </button>
+                    ))}
+                </div>
+                <div className="navigation-buttons">
+                    <button
+                        className="nav-button nav-button--ghost"
+                        onClick={goToPrev}
+                        disabled={currentIndex === 0}
+                    >
+                        Previous Question
+                    </button>
+                    <button
+                        className="nav-button"
+                        onClick={shouldShowResults(currentIndex) ? onShowResults : goToNext}
+                        disabled={selectedChoiceIdx === null}
+                    >
+                        {shouldShowResults(currentIndex) ? 'Finish Quiz' : 'Next Question'}
+                    </button>
+                </div>
             </div>
         </div>
     );
