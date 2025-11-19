@@ -1,18 +1,19 @@
 import './WelcomePage.css';
 
-type WelcomePageProps = {
-  onStartQuiz: () => void;
-};
-
-
-function WelcomePage({ onStartQuiz }: WelcomePageProps) {
+function WelcomePage({ onStartQuiz }) {
     return (
         <div className="welcome-wrapper">
             <div className="welcome-container">
-                <img src="src/assets/quiz_welcome_page.jpg" alt="Quiz Time" className='quiz-image'/>
+                <img
+                    src="src/assets/quiz_welcome_page.jpg"
+                    alt="Quiz Time"
+                    className="quiz-image"
+                />
                 <h1>Welcome to the Trivia Quiz</h1>
                 <p>You will be asked a series of questions. Click the button below to start.</p>
-                <button className="start-button" onClick={onStartQuiz}>Start Quiz</button>
+                <button className="start-button" onClick={onStartQuiz}>
+                    Start Quiz
+                </button>
             </div>
         </div>
     );

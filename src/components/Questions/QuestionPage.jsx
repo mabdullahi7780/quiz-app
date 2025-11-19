@@ -1,19 +1,13 @@
 import './QuestionPage.css';
-import { useState, type Dispatch, type SetStateAction } from 'react';
+import { useState } from 'react';
 import { questionBank } from '../../data/questions';
 
-type QuestionPageProps = {
-    onShowResults: () => void;
-    answers: (number | null)[];
-    setAnswers: Dispatch<SetStateAction<(number | null)[]>>;
-};
-
-function QuestionPage({ onShowResults, answers, setAnswers }: QuestionPageProps) {
+function QuestionPage({ onShowResults, answers, setAnswers }) {
     const [currentIndex, setCurrentIndex] = useState(0);
     const { question, choices } = questionBank[currentIndex];
-    const shouldShowResults = (idx: number) => idx + 1 === questionBank.length;
+    const shouldShowResults = idx => idx + 1 === questionBank.length;
 
-    const selectChoice = (choiceIdx: number) => {
+    const selectChoice = choiceIdx => {
         setAnswers(prev => {
             const next = [...prev];
             next[currentIndex] = choiceIdx;

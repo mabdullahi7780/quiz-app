@@ -1,10 +1,4 @@
-export type Question = {
-    question: string;
-    choices: string[];
-    correctIdx: number;
-};
-
-export const questionBank: Question[] = [
+export const questionBank = [
     {
         question: 'Which planet is known as the Red Planet?',
         choices: ['Earth', 'Mars', 'Jupiter', 'Venus'],
