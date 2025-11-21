@@ -1,0 +1,90 @@
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background-color: #ffffff;
+    max-width: 450px;
+    width: 90%;
+    padding: 3rem 2.5rem;
+    border-radius: 18px;
+    box-shadow: 0 22px 50px rgba(108, 76, 179, 0.3);
+}
+
+.modal-title {
+    font-size: 2rem;
+    color: #333;
+    margin: 0 0 2rem 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+.modal-input {
+    width: 100%;
+    padding: 15px 20px;
+    font-size: 1rem;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    font-family: inherit;
+    transition: border-color 0.3s ease;
+}
+
+.modal-input:focus {
+    outline: none;
+    border-color: #6f45ff;
+}
+
+.modal-input::placeholder {
+    color: #999;
+}
+
+.modal-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 15px 35px;
+    font-size: 1rem;
+    font-weight: 500;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-family: inherit;
+}
+
+.modal-button:hover {
+    background-color: #0056b3;
+    transform: translateY(-1px);
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .modal-container {
+        padding: 2.5rem 1.75rem;
+        width: 85%;
+    }
+
+    .modal-title {
+        font-size: 1.75rem;
+    }
+
+    .modal-input {
+        padding: 12px 18px;
+    }
+
+    .modal-button {
+        padding: 12px 28px;
+    }
+}

@@ -1,5 +1,6 @@
 import "./ResultsPage.css";
 import { questionBank } from "../../data/questions";
+import { getUsername } from "../../data/storage";
 
 function ResultsPage({ onPlayAgain, answers }) {
     
@@ -49,7 +50,7 @@ function ResultsPage({ onPlayAgain, answers }) {
   return (
     <div className="results-wrapper">
       <div className="results-container">
-        <h1>Quiz Finished!</h1>
+        <h1>Congratulations {getUsername().toUpperCase()} 🎉! </h1>
         <p className="score">
           You got {correctAnswers} out of {questionBank.length} correct
         </p>
