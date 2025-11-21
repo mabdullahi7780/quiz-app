@@ -21,6 +21,7 @@ export const saveAnswers = (answers) => {
 };
 
 export const clearStoredAnswers = () => {
+  
   localStorage.removeItem(STORAGE_KEY);
 };
 

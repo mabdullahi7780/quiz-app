@@ -1,22 +1,11 @@
-body {
-    margin: 0;
-    padding: 0;
-    height: 100vh;
-    width: 100vw;
-    background-color: #8a6ce5;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    overflow: hidden;
-}
-
 .question-wrapper {
-    height: 100vh;
-    width: 100vw;
+    min-height: calc(100vh - 70px);
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0;
-    margin: 0;
-    overflow: hidden;
+    padding: 2rem;
+    background-color: #8a6ce5;
 }
 
 .question-container {
@@ -118,7 +107,6 @@ body {
     background-color: #ebe5ff;
 }
 
-/* Responsive styles */
 @media (max-width: 768px) {
     .question-container {
         width: 85vw;
