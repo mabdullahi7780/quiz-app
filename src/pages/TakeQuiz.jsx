@@ -9,7 +9,8 @@ import {
   saveAnswers,
   saveUsername,
   clearUsername,
-  getUsername
+  getUsername,
+  storeResult
 } from "../data/storage.js";
 
 function TakeQuiz() {
@@ -42,6 +43,8 @@ function TakeQuiz() {
   const showResults = () => setCurrentPage("results");
 
   const onPlayAgain = () => {
+    
+    storeResult();
     clearUsername();
     setAnswers(Array(questionBank.length).fill(null));
     setCurrentPage("welcome");

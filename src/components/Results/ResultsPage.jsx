@@ -4,6 +4,7 @@ import { getUsername } from "../../data/storage";
 
 function ResultsPage({ onPlayAgain, answers }) {
     
+    
     function getCorrectAnswersCount(answers) {
         return answers.reduce((total, answerIdx, questionIdx) => {
         if (answerIdx === null) return total;
