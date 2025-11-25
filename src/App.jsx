@@ -3,6 +3,7 @@ import Navbar from "./components/Navbar/Navbar";
 import TakeQuiz from "./pages/TakeQuiz";
 import ShowAllResults from "./pages/ShowAllResults";
 import { Children } from "react";
+import AddQuiz from "./pages/AddQuiz";
 
 function App() {
  const router = createBrowserRouter([
@@ -17,6 +18,10 @@ function App() {
         {
           path: "results",
           element: <ShowAllResults />,
+        },
+        {
+          path: "add-quiz",
+          element: <AddQuiz/>,
         },
       ],
     },

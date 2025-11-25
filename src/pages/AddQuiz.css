@@ -1,0 +1,151 @@
+.add-quiz-wrapper {
+  min-height: calc(100vh - 70px);
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background-color: #8a6ce5;
+}
+
+.add-quiz-container {
+  width: 90%;
+  max-width: 800px;
+  padding: 3rem;
+  background-color: white;
+  border-radius: 18px;
+  box-shadow: 0 22px 50px rgba(108, 76, 179, 0.2);
+}
+
+.add-quiz-container h1 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 1rem;
+  font-size: 2.5rem;
+}
+
+.quiz-progress {
+  text-align: center;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background-color: #f0f0f0;
+  border-radius: 8px;
+}
+
+.quiz-progress p {
+  margin: 0;
+  color: #555;
+  font-size: 1.1rem;
+}
+
+.question-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-size: 1.1rem;
+  color: #333;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.form-group textarea {
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  transition: border-color 0.3s ease;
+  min-height: 100px;
+  resize: vertical;
+  font-family: inherit;
+}
+
+.form-group textarea:focus {
+  outline: none;
+  border-color: #6f45ff;
+}
+
+.options-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.option-input {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.option-input input[type="radio"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.option-input input[type="text"] {
+  flex: 1;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  transition: border-color 0.3s ease;
+}
+
+.option-input input[type="text"]:focus {
+  outline: none;
+  border-color: #6f45ff;
+}
+
+.submit-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  font-size: 1.1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  margin-top: 1rem;
+}
+
+.submit-button:hover {
+  background-color: #0056b3;
+  transform: translateY(-1px);
+}
+
+.finish-button {
+  width: 100%;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 18px 30px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  margin-top: 2rem;
+}
+
+.finish-button:hover {
+  background-color: #218838;
+  transform: translateY(-1px);
+}
+
+@media (max-width: 768px) {
+  .add-quiz-container {
+    padding: 2rem 1.5rem;
+  }
+
+  .add-quiz-container h1 {
+    font-size: 2rem;
+  }
+}
