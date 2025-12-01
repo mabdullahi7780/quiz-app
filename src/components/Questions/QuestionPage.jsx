@@ -1,12 +1,20 @@
 import "./QuestionPage.css";
 import { useState } from "react";
-import { questionBank } from "../../data/questions";
+import { selectedQuestionBank } from "../../data/questions";
 
 function QuestionPage({ onShowResults, answers, setAnswers }) {
+  // finiding the cerrect questionBnak from all quizzes
+  console.log("Question Bank 1: QuestionPage.jsx " , selectedQuestionBank());
+
+  const questionBank = selectedQuestionBank();
+
+  console.log("Question Bank 2: QuestionPage.jsx " , questionBank);
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const { question, choices } = questionBank[currentIndex];
-
-//   function to check ke "show results" ya "next question" dikhana ha
+  console.log("Choices are : ", choices);
+  console.log("Questions are : ", question);
+  //   function to check ke "show results" ya "next question" dikhana ha
   function shouldShowResults(idx) {
     if (idx + 1 === questionBank.length) {
       return true;
@@ -15,7 +23,7 @@ function QuestionPage({ onShowResults, answers, setAnswers }) {
     }
   }
 
-//   Globally answer array mein choice set ker di hai so that it is visible when we go back
+  //   Globally answer array mein choice set ker di hai so that it is visible when we go back
   function selectChoice(choiceIdx) {
     setAnswers((prev) => {
       const next = [...prev];
@@ -24,12 +32,10 @@ function QuestionPage({ onShowResults, answers, setAnswers }) {
     });
   }
 
-//   take out the selected choice so that we can show it in the UI
+  //   take out the selected choice so that we can show it in the UI
   const selectedChoiceIdx = answers[currentIndex];
 
-
-
-//   Error checks to see ke agla possible hai ya nahi and then go to next or prev depending on the question
+  //   Error checks to see ke agla possible hai ya nahi and then go to next or prev depending on the question
   function goToNext() {
     if (!shouldShowResults(currentIndex)) {
       setCurrentIndex((prev) => prev + 1);

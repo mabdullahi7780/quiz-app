@@ -47,6 +47,11 @@
   color: #6f45ff;
   font-size: 1.3rem;
 }
+.result-card h2 {
+  margin: 0 0 1rem 0;
+  color: #6f45ff;
+  font-size: 1.3rem;
+}
 
 .result-card p {
   margin: 0.5rem 0;

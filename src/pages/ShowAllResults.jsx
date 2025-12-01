@@ -2,6 +2,7 @@ import { useState } from "react";
 import { getAllData } from "../data/storage";
 import { useNavigate } from "react-router-dom";
 import { ResultsPopup } from "../components/Results/ResultsPopup";
+import { setQuiz } from "../data/questions";
 import "./ShowAllResults.css";
 
 function ShowAllResults() {
@@ -9,6 +10,7 @@ function ShowAllResults() {
   const data = getAllData();
   const [selectedResult, setSelectedResult] = useState(null);
 
+  console.log("All data is: ", data);
   if (!data || data.length === 0) {
     return (
       <div className="no-results-container">
@@ -18,7 +20,18 @@ function ShowAllResults() {
       </div>
     );
   }
-
+  
+  const handleViewDetails = (result) => {
+    console.log("Viewing details for:", result);
+  
+    if (result.quiz) {
+      setQuiz(result.quiz);
+      console.log("Set quiz to:", result.quiz);
+    }
+    
+    setSelectedResult(result);
+  };
+  
   return (
     <>
       <div className="all-results-wrapper">
@@ -29,9 +42,10 @@ function ShowAllResults() {
               <div 
                 key={`${d.name}-${d.date}-${index}`} 
                 className="result-card"
-                onClick={() => setSelectedResult(d)}
+                onClick={() => handleViewDetails(d)}
                 style={{ cursor: 'pointer' }}
               >
+                <h2>Quiz Attempted: {d.quiz}</h2>
                 <h3>{d.name}</h3>
                 <p><strong>Score:</strong> {d.score} / {d.user_answers?.length || 0}</p>
                 <p><strong>Date:</strong> {d.date}</p>
@@ -45,7 +59,8 @@ function ShowAllResults() {
       {selectedResult && (
         <ResultsPopup 
           answers={selectedResult.user_answers} 
-          onClose={() => setSelectedResult(null)} 
+          onClose={() => setSelectedResult(null)}
+          quizName = {selectedResult.quiz}
         />
       )}
     </>

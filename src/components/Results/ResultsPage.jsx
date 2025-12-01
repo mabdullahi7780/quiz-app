@@ -1,50 +1,50 @@
 import "./ResultsPage.css";
-import { questionBank } from "../../data/questions";
+import { selectedQuestionBank } from "../../data/questions";
 import { getUsername } from "../../data/storage";
 
 function ResultsPage({ onPlayAgain, answers }) {
-    
-    
-    function getCorrectAnswersCount(answers) {
-        return answers.reduce((total, answerIdx, questionIdx) => {
-        if (answerIdx === null) return total;
-        return answerIdx === questionBank[questionIdx].correctIdx
-            ? total + 1
-            : total;
-        }, 0);
-    }
 
 
-    function renderQuestionSummaries(answers) {
-        return questionBank.map((question, idx) => {
-        const userChoiceIdx = answers[idx];
-        const userChoice =
-            userChoiceIdx !== null ? question.choices[userChoiceIdx] : "No answer";
-        const isCorrect = userChoiceIdx === question.correctIdx;
+  const questionBank = selectedQuestionBank();
 
-        return (
-            <div
-            key={question.question}
-            className={[
-                "result-row",
-                isCorrect ? "result-row--correct" : "result-row--incorrect",
-            ]
-                .filter(Boolean)
-                .join(" ")}
-            >
-            <h3 className="result-row__question">{question.question}</h3>
-            <p className="result-row__answer">
-                <span>Your answer:</span> {userChoice}
-            </p>
-            <p className="result-row__correct">
-                <span>Correct answer:</span> {question.choices[question.correctIdx]}
-            </p>
-            </div>
-        );
-        });
-    }
+  function getCorrectAnswersCount(answers) {
+    return answers.reduce((total, answerIdx, questionIdx) => {
+      if (answerIdx === null) return total;
+      return answerIdx === questionBank[questionIdx].correctIdx
+        ? total + 1
+        : total;
+    }, 0);
+  }
 
-    
+  function renderQuestionSummaries(answers) {
+    return questionBank.map((question, idx) => {
+      const userChoiceIdx = answers[idx];
+      const userChoice =
+        userChoiceIdx !== null ? question.choices[userChoiceIdx] : "No answer";
+      const isCorrect = userChoiceIdx === question.correctIdx;
+
+      return (
+        <div
+          key={question.question}
+          className={[
+            "result-row",
+            isCorrect ? "result-row--correct" : "result-row--incorrect",
+          ]
+            .filter(Boolean)
+            .join(" ")}
+        >
+          <h3 className="result-row__question">{question.question}</h3>
+          <p className="result-row__answer">
+            <span>Your answer:</span> {userChoice}
+          </p>
+          <p className="result-row__correct">
+            <span>Correct answer:</span> {question.choices[question.correctIdx]}
+          </p>
+        </div>
+      );
+    });
+  }
+
   const correctAnswers = getCorrectAnswersCount(answers);
   const questionSummaries = renderQuestionSummaries(answers);
 

@@ -3,25 +3,44 @@ import WelcomePage from "../components/Welcome/WelcomePage.jsx";
 import QuestionPage from "../components/Questions/QuestionPage.jsx";
 import ResultsPage from "../components/Results/ResultsPage.jsx";
 import Modal from "../components/Modal/Modal.jsx";
-import { questionBank } from "../data/questions.js";
+import { selectedQuestionBank } from "../data/questions.js";
 import {
   getStoredAnswers,
   saveAnswers,
   saveUsername,
   clearUsername,
   getUsername,
-  storeResult
+  storeResult,
+  clearStoredAnswers
 } from "../data/storage.js";
 
 function TakeQuiz() {
   const [currentPage, setCurrentPage] = useState("welcome");
-  const [answers, setAnswers] = useState(() => {
-    const saved = getStoredAnswers();
-    return saved || new Array(questionBank.length).fill(null);
-  });
+  const [questionBank, setQuestionBank] = useState([]);
+  const [answers, setAnswers] = useState([]);
+
 
   useEffect(() => {
-    saveAnswers(answers);
+    if (currentPage === "questions") {
+      const questions = selectedQuestionBank();
+      console.log("Loaded questions:", questions);
+      setQuestionBank(questions);
+      
+      // Initialize answers array with correct length
+      const saved = getStoredAnswers();
+      if (saved && saved.length === questions.length) {
+        setAnswers(saved);
+      } else {
+        setAnswers(new Array(questions.length).fill(null));
+      }
+    }
+  }, [currentPage]);
+
+
+  useEffect(() => {
+    if (answers.length > 0) {
+      saveAnswers(answers);
+    }
   }, [answers]);
 
   const takeName = () => {
@@ -43,25 +62,29 @@ function TakeQuiz() {
   const showResults = () => setCurrentPage("results");
 
   const onPlayAgain = () => {
-    
     storeResult();
     clearUsername();
-    setAnswers(Array(questionBank.length).fill(null));
+    clearStoredAnswers();
+    setAnswers([]);
+    setQuestionBank([]);
     setCurrentPage("welcome");
-  }
+  };
 
   return (
     <>
       {currentPage === "welcome" && <WelcomePage onStartQuiz={takeName} />}
       {currentPage === "modal" && <Modal onSubmit={startQuiz} />}
-      {currentPage === "questions" && (
+      {currentPage === "questions" && questionBank.length > 0 && (
         <QuestionPage
           onShowResults={showResults}
           answers={answers}
           setAnswers={setAnswers}
+          questionBank={questionBank}
         />
       )}
-      {currentPage === "results" && <ResultsPage onPlayAgain={onPlayAgain} answers={answers} />}
+      {currentPage === "results" && (
+        <ResultsPage onPlayAgain={onPlayAgain} answers={answers} />
+      )}
     </>
   );
 }

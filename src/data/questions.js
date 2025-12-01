@@ -1,4 +1,7 @@
-export const questionBank = [
+import { useState } from "react";
+import { getAllQuizzes, getQuizName, saveQuizName, setAllQuizzes } from "./storage";
+
+const questionBank = [
     {
         question: 'Which planet is known as the Red Planet?',
         choices: ['Earth', 'Mars', 'Jupiter', 'Venus'],
@@ -26,27 +29,77 @@ export const questionBank = [
     },
 ];
 
+// For the 
+// What if I implemnt the quizQuestionBank using useEffect? Taaka jab bhi quizQuestionBank change ho tab re render ho jaye sab
 
-// Now I am thinking ke jo data form se aye ga usa mein save ker loon ga in the struct and then will just map over all questions 
-//  in the addQuiz function to store the data. aakhir mein us data ko mein quizQuestionBank mein daal doon ga
 
-const quizQuestionBank = [questionBank];
-const question_struct = {
-    question: "",
-    choices: [],
-    correctIdx: -1,
+const defaultQuiz = {
+    name: "default",
+    questions: questionBank
 }
-let whole_quiz = []
 
-export const addQuiz = (quiz) => {
-    quiz.map((question) => {
-        whole_quiz.push(question);
-    })
+export const quizQuestionBank = getAllQuizzes();
 
-    quizQuestionBank.push(whole_quiz);
-    whole_quiz = []
-    console.log(quizQuestionBank);
-}
+
+export const addQuiz = (quiz, quizName) => {
+    // Create new quiz object
+    const completeQuiz = {
+        name: quizName,
+        questions: quiz
+    };
+
+    quizQuestionBank.push(completeQuiz);
+
+    console.log('Quiz added:', completeQuiz);
+    console.log('All quizzes (questions.js):', quizQuestionBank);
+    setAllQuizzes();
+
+    return completeQuiz;
+};
+
+
+// Get all available quizzes
+
+// Get a specific quiz by index
+export const getQuiz = (index = 0) => {
+    return quizQuestionBank[index] || quizQuestionBank[0];
+};
 
 
 // Now add a way to take in the name of the quiz and display it on the main page too
+export let selectedQuiz = getQuizName();
+export const setQuiz = (name) => {
+    selectedQuiz = name;
+    console.log("Updated the quiz name to: ", selectedQuiz);
+    saveQuizName(selectedQuiz);
+}
+
+
+
+
+export const selectedQuestionBank = () => {
+    
+    console.log("Looking for quiz:", selectedQuiz);
+    
+    // Get quizzes from localStorage, fallback to memory
+    let allQuizzes = getAllQuizzes();
+    
+    if (!allQuizzes || allQuizzes.length === 0) {
+        console.log("No quizzes in localStorage, using memory");
+        allQuizzes = quizQuestionBank;
+    }
+    
+    console.log("All available quizzes:", allQuizzes);
+
+    const foundQuiz = allQuizzes.find(q => q.name === selectedQuiz);
+    
+    if (foundQuiz) {
+        console.log("Found quiz:", foundQuiz.name);
+        console.log("Questions:", foundQuiz.questions);
+        return foundQuiz.questions;
+    }
+    
+    // Fallback to default quiz
+    console.warn(`Quiz "${selectedQuiz}" not found, using default`);
+    return allQuizzes[0]?.questions || questionBank;
+};

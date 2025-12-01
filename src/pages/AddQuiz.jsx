@@ -2,7 +2,9 @@ import { useState } from "react";
 import { addQuiz } from "../data/questions";
 import "./AddQuiz.css";
 
+
 function AddQuiz() {
+  const [quizName, setQuizName] = useState("");
   const [question, setQuestion] = useState({
     question_text: "",
     option_1: "",
@@ -57,7 +59,7 @@ function AddQuiz() {
       correctIdx: 0,
     });
 
-    alert(`Question ${quiz.length + 1} added! Total questions: ${quiz.length + 1}`);
+    
   };
 
   const finishQuiz = () => {
@@ -66,16 +68,39 @@ function AddQuiz() {
       return;
     }
     
-    addQuiz(quiz);
-    alert(`Quiz published with ${quiz.length} questions!`);
+    if (!quizName.trim()) {
+      alert("Please enter a quiz name!");
+      return;
+    }
+    
+    addQuiz(quiz, quizName);
+    alert(`Quiz "${quizName}" published with ${quiz.length} questions!`);
     setQuiz([]);
+    setQuizName("");
   };
 
   return (
     <div className="add-quiz-wrapper">
       <div className="add-quiz-container">
         <h1>Create New Quiz</h1>
-        
+
+
+        <div className="quiz-name-section">
+          <label htmlFor="quizName" className="quiz-name-label">
+            Quiz Name
+          </label>
+          <input 
+            type="text" 
+            id="quizName"
+            name="quizName" 
+            className="quiz-name-input"
+            placeholder="Enter quiz name (e.g., General Knowledge Quiz)"
+            value={quizName}
+            onChange={(e) => setQuizName(e.target.value)}
+            required
+          />
+        </div>
+
         <div className="quiz-progress">
           <p>Questions added: <strong>{quiz.length}</strong></p>
         </div>
