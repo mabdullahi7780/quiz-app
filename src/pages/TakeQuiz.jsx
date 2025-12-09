@@ -69,7 +69,7 @@ function TakeQuiz() {
     setQuestionBank([]);
     setCurrentPage("welcome");
   };
-
+  
   return (
     <>
       {currentPage === "welcome" && <WelcomePage onStartQuiz={takeName} />}
