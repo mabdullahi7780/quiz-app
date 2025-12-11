@@ -4,6 +4,7 @@ import TakeQuiz from "./pages/TakeQuiz";
 import ShowAllResults from "./pages/ShowAllResults";
 import { Children } from "react";
 import AddQuiz from "./pages/AddQuiz";
+import ManageQuizzes from "./pages/ManageQuizzes";
 
 function App() {
  const router = createBrowserRouter([
@@ -22,6 +23,10 @@ function App() {
         {
           path: "add-quiz",
           element: <AddQuiz/>,
+        },
+        {
+          path: "manage-quizzes",
+          element: <ManageQuizzes/>,
         },
       ],
     },

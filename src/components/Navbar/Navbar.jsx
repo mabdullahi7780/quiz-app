@@ -10,7 +10,7 @@ function Navbar() {
           <div className="navbar-links">
             <Link to="/" className="navbar-link">Take Quiz</Link>
             <Link to="/results" className="navbar-link">All Attempts</Link>
-            <Link to="/add-quiz" className="navbar-link">Add Questions To Quiz</Link>
+            <Link to="/manage-quizzes" className="navbar-link">Manage the Quizzes</Link>
           </div>
         </div>
       </nav>

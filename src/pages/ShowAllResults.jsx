@@ -47,7 +47,6 @@ function ShowAllResults() {
     setRows(sortedData);
   };
 
-  // Fix that why is the results pop up not disappearing??? WHy is it visible oin the show all results page
   const handleViewDetails = (result) => {
     if (result.quiz) {
       setQuiz(result.quiz);
