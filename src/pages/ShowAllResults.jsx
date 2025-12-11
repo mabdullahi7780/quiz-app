@@ -6,6 +6,7 @@ import { setQuiz } from "../data/questions";
 import "primeicons/primeicons.css";
 import "./ShowAllResults.css";
 import { columns } from "../data/table_data";
+import FilterModal from "../components/FilterModal/filterModal";
 
 function ShowAllResults() {
   const navigate = useNavigate();
@@ -23,7 +24,7 @@ function ShowAllResults() {
 
   const [rows, setRows] = useState(data);
   const [sorting, setSorting] = useState({ column: "Name", order: "asc" });
-
+  const [selectedResult, setSelectedResult] = useState(null);
   const sortTable = (newSorting) => {
     setSorting(newSorting);
 
@@ -46,6 +47,7 @@ function ShowAllResults() {
     setRows(sortedData);
   };
 
+  // Fix that why is the results pop up not disappearing??? WHy is it visible oin the show all results page
   const handleViewDetails = (result) => {
     if (result.quiz) {
       setQuiz(result.quiz);
@@ -95,7 +97,7 @@ function ShowAllResults() {
     return (
       <tbody>
         {entries.map((d, i) => (
-          <tr key={`${d.name}-${d.date}-${i}`}>
+          <tr key={`${d.name}-${d.date}-${i}`} onClick={() => handleViewDetails(d)}>
             <td>{d.name}</td>
             <td>{d.quiz}</td>
             <td>{d.score}</td>
@@ -106,34 +108,68 @@ function ShowAllResults() {
     );
   };
 
-  return (
+  const [filterModal, setFilterModal] = useState(false);
+  const [filters, setFilters] = useState({ quiz: "", name: "" });
+
+  const handleApplyFilters = (newFilters) => {
+    setFilters(newFilters);
+
+    let filteredData = [...data];
+
+    if (newFilters.quiz) {
+      filteredData = filteredData.filter(
+        (item) => item.quiz === newFilters.quiz
+      );
+    }
+
+    if (newFilters.name) {
+      filteredData = filteredData.filter(
+        (item) => item.name === newFilters.name
+      );
+    }
+
+    setRows(filteredData);
+  };
+
+return (
+  <>
     <div className="all-results-container">
       <div className="all-results-header">
         <h1>All Quiz Results</h1>
         <p>View your complete quiz history</p>
       </div>
       <div className="results-table-wrapper">
+        <div className="table-header-section">
+          <button
+            className="filter-button"
+            onClick={() => setFilterModal(true)}
+          >
+            🔍 Add Filters
+          </button>
+        </div>
         <table>
           <Header columns={columns} sorting={sorting} sortTable={sortTable} />
           <Content entries={rows} />
         </table>
       </div>
     </div>
-  );
-}
-
-{
-  /* Results Popup
-      {selectedResult && (
+    {filterModal && (
+      <FilterModal
+        onClose={() => setFilterModal(false)}
+        onApplyFilters={handleApplyFilters}
+      />
+    )}
+    {selectedResult && (
         <ResultsPopup
           answers={selectedResult.user_answers}
           onClose={() => {
             setSelectedResult(null);
-            setSelectedRow(null);
           }}
           quizName={selectedResult.quiz}
         />
-      )} */
+      )}
+  </>
+);
 }
 
 export default ShowAllResults;

@@ -34,6 +34,7 @@ export function ResultsPopup({ answers, quizName, onClose }) {
   }
 
 
+  console.log(answers);
   if (!answers || answers.length !== questionBank.length) {
     console.warn("Answers length mismatch:", answers?.length, "vs", questionBank.length);
   }
