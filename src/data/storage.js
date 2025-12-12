@@ -7,8 +7,12 @@ const ALL_QUESTIONS = "all_quizzes";
 // For all the quizzes
 export const setAllQuizzes = (quizBank) => {
   console.log("Setting all Quizzes called");
-  localStorage.setItem(ALL_QUESTIONS, JSON.stringify(quizQuestionBank));
+  localStorage.setItem(ALL_QUESTIONS, JSON.stringify(quizBank));
   console.log("Set the allQuizzes to: ", quizBank);
+}
+
+export const removeAllQuizzes = () => {
+  localStorage.removeItem(ALL_QUESTIONS)
 }
 
 // Send all the quizzes to the caller/ array bana ker bhej do 
@@ -79,8 +83,12 @@ export const storeResult = () => {
   const answers = getStoredAnswers();
   const username = getUsername();
   const quizName = getQuizName();
-
-  if (!answers || !username || !quizName) {
+  const quizQuestions = selectedQuestionBank();
+  if (!answers || !username || !quizName || !quizQuestions) {
+    console.log("Answers are: ", answers)
+    console.log("Username is: ", username)
+    console.log("Quiz Name is: ", quizName)
+    console.log("Quiz Questions are: ", quizQuestions)
     console.error("No answers or username found");
     return;
   }
@@ -90,7 +98,7 @@ export const storeResult = () => {
 
   const questionBank = selectedQuestionBank();
 
-  console.log("QuestionBank is this: kkk", questionBank);
+  console.log("QUiz QUestions are: ", questionBank);
   const key = `${username}'s_data`;
   const total_user_score = answers.reduce((total, answerIdx, questionIdx) => {
     if (answerIdx === null) return total;
@@ -113,7 +121,8 @@ export const storeResult = () => {
     score: total_user_score,
     date: formattedDateTime,
     name: username,
-    quiz: quizName
+    quiz: quizName,
+    questions : quizQuestions
   };
 
   // Get existing users array

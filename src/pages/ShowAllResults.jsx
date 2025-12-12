@@ -165,6 +165,7 @@ return (
             setSelectedResult(null);
           }}
           quizName={selectedResult.quiz}
+          questionBank= {selectedResult.questions}
         />
       )}
   </>

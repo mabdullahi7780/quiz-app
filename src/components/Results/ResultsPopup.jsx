@@ -3,7 +3,7 @@ import { selectedQuestionBank, setQuiz } from "../../data/questions";
 import { useEffect } from "react";
 import "./ResultsPopup.css";
 
-export function ResultsPopup({ answers, quizName, onClose }) {
+export function ResultsPopup({ answers, quizName, onClose, questionBank }) {
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -13,7 +13,6 @@ export function ResultsPopup({ answers, quizName, onClose }) {
     }
   }, [quizName]);
 
-  const questionBank = selectedQuestionBank();
 
   console.log("Question bank in ResultsPopup:", questionBank);
 

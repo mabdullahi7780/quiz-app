@@ -1,42 +1,42 @@
 import { useState } from "react";
 import { getAllQuizzes, getQuizName, saveQuizName, setAllQuizzes } from "./storage";
 
-const questionBank = [
-    {
-        question: 'Which planet is known as the Red Planet?',
-        choices: ['Earth', 'Mars', 'Jupiter', 'Venus'],
-        correctIdx: 1,
-    },
-    {
-        question: 'Who wrote the play "Romeo and Juliet"?',
-        choices: ['William Shakespeare', 'Charles Dickens', 'Jane Austen', 'Leo Tolstoy'],
-        correctIdx: 0,
-    },
-    {
-        question: 'What is the largest ocean on Earth?',
-        choices: ['Atlantic Ocean', 'Indian Ocean', 'Arctic Ocean', 'Pacific Ocean'],
-        correctIdx: 3,
-    },
-    {
-        question: 'Which element has the chemical symbol "O"?',
-        choices: ['Gold', 'Oxygen', 'Osmium', 'Silver'],
-        correctIdx: 1,
-    },
-    {
-        question: 'How many continents are there on Earth?',
-        choices: ['Five', 'Six', 'Seven', 'Eight'],
-        correctIdx: 2,
-    },
-];
+// const questionBank = [
+//     {
+//         question: 'Which planet is known as the Red Planet?',
+//         choices: ['Earth', 'Mars', 'Jupiter', 'Venus'],
+//         correctIdx: 1,
+//     },
+//     {
+//         question: 'Who wrote the play "Romeo and Juliet"?',
+//         choices: ['William Shakespeare', 'Charles Dickens', 'Jane Austen', 'Leo Tolstoy'],
+//         correctIdx: 0,
+//     },
+//     {
+//         question: 'What is the largest ocean on Earth?',
+//         choices: ['Atlantic Ocean', 'Indian Ocean', 'Arctic Ocean', 'Pacific Ocean'],
+//         correctIdx: 3,
+//     },
+//     {
+//         question: 'Which element has the chemical symbol "O"?',
+//         choices: ['Gold', 'Oxygen', 'Osmium', 'Silver'],
+//         correctIdx: 1,
+//     },
+//     {
+//         question: 'How many continents are there on Earth?',
+//         choices: ['Five', 'Six', 'Seven', 'Eight'],
+//         correctIdx: 2,
+//     },
+// ];
 
 // For the 
 // What if I implemnt the quizQuestionBank using useEffect? Taaka jab bhi quizQuestionBank change ho tab re render ho jaye sab
 
 
-const defaultQuiz = {
-    name: "default",
-    questions: questionBank
-}
+// const defaultQuiz = {
+//     name: "default",
+//     questions: questionBank
+// }
 
 export const quizQuestionBank = getAllQuizzes();
 
@@ -52,7 +52,7 @@ export const addQuiz = (quiz, quizName) => {
 
     console.log('Quiz added:', completeQuiz);
     console.log('All quizzes (questions.js):', quizQuestionBank);
-    setAllQuizzes();
+    setAllQuizzes(quizQuestionBank);
 
     return completeQuiz;
 };

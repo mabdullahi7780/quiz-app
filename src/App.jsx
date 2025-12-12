@@ -5,6 +5,7 @@ import ShowAllResults from "./pages/ShowAllResults";
 import { Children } from "react";
 import AddQuiz from "./pages/AddQuiz";
 import ManageQuizzes from "./pages/ManageQuizzes";
+import EditQuiz from "./pages/EditQuiz";
 
 function App() {
  const router = createBrowserRouter([
@@ -27,6 +28,10 @@ function App() {
         {
           path: "manage-quizzes",
           element: <ManageQuizzes/>,
+        },
+        {
+          path: "edit-quiz",
+          element: <EditQuiz/>,
         },
       ],
     },

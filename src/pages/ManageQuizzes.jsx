@@ -1,21 +1,32 @@
-import { getAllQuizzes } from "../data/storage";
+import { useState } from "react";
+import { getAllQuizzes, setAllQuizzes, removeAllQuizzes,saveQuizName } from "../data/storage";
 import { useNavigate } from "react-router-dom";
 import "./ManageQuizzes.css"
 
 function ManageQuizzes() {
   const navigate = useNavigate();
-  const quizzes = getAllQuizzes();
+  const [quizzes, setQuizzes] = useState(getAllQuizzes());
 
-  const handleEdit = (quizId) => {
+  const handleEdit = (quizName) => {
     // Edit logic
+    saveQuizName(quizName);
+    navigate('/edit-quiz');
   };
 
-  const handleDelete = (quizId) => {
-    // Delete logic
-  };
-
-  const handleView = (quizId) => {
-    // View logic
+  const handleDelete = (quizName) => {
+    // Filter out the quiz to delete
+    const updatedQuizzes = quizzes.filter((quiz) => quiz.name !== quizName);
+    
+    console.log("Updated quizzes:", updatedQuizzes);
+    
+    if (updatedQuizzes.length === 0) {
+      removeAllQuizzes();
+    } else {
+      setAllQuizzes(updatedQuizzes);
+    }
+    
+    // Update local state to trigger re-render
+    setQuizzes(updatedQuizzes);
   };
 
   if (!quizzes || quizzes.length === 0) {
@@ -48,7 +59,7 @@ function ManageQuizzes() {
 
       <div className="quiz-cards-container">
         {quizzes.map((quiz, index) => (
-          <div key={index} className="quiz-card" onClick={() => handleView(quiz.id)}>
+          <div key={index} className="quiz-card">
             <div className="quiz-card-header">
               <h3 className="quiz-card-title">{quiz.name}</h3>
             </div>
@@ -63,13 +74,13 @@ function ManageQuizzes() {
             <div className="quiz-card-actions" onClick={(e) => e.stopPropagation()}>
               <button 
                 className="action-button edit-button"
-                onClick={() => handleEdit(quiz.id)}
+                onClick={() => handleEdit(quiz.name)}
               >
                 ✏️ Edit
               </button>
               <button 
                 className="action-button delete-button"
-                onClick={() => handleDelete(quiz.id)}
+                onClick={() => handleDelete(quiz.name)}
               >
                 🗑️ Delete
               </button>
@@ -89,4 +100,3 @@ function ManageQuizzes() {
 }
 
 export default ManageQuizzes;
-
