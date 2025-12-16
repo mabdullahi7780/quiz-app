@@ -204,6 +204,89 @@
   background: #f8f9fa;
 }
 
+.form-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 2px solid #e0e0e0;
+  flex-wrap: wrap;
+}
+
+.form-actions button {
+  flex: 1;
+  min-width: 120px;
+  padding: 0.75rem 1.25rem;
+  border: none;
+  border-radius: 50px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.form-actions button:disabled {
+  cursor: not-allowed;
+}
+
+.delete-question-btn {
+  background: #fff;
+  color: #e74c3c;
+  border: 2px solid #e74c3c !important;
+}
+
+.delete-question-btn:hover:not(:disabled) {
+  background: #e74c3c;
+  color: white;
+}
+
+.add-question-btn {
+  background: #fff;
+  color: #27ae60;
+  border: 2px solid #27ae60 !important;
+}
+
+.add-question-btn:hover:not(:disabled) {
+  background: #27ae60;
+  color: white;
+}
+
+.save-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.save-actions button {
+  flex: 1;
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.cancel-btn {
+  background: #f0f0f0;
+  color: #666;
+}
+
+.cancel-btn:hover {
+  background: #e0e0e0;
+}
+
+.save-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.save-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
 /* Responsive Design */
 @media (max-width: 768px) {
   .edit-quiz-container {

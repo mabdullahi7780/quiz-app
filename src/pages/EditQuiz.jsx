@@ -3,28 +3,32 @@ import { getAllQuizzes, getQuizName, setAllQuizzes } from "./../data/storage";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-
-// Have an option to add a question to the quiz and then update the corresponding length waghaira
-
 function EditQuiz() {
   const navigate = useNavigate();
   const quizName = getQuizName();
-  const allQuizzes = getAllQuizzes();
-
-  const selectedQuizQuestions = () => {
+  
+  
+  const getQuizData = () => {
+    const allQuizzes = getAllQuizzes();
     const quiz = allQuizzes.find((q) => q.name === quizName);
     return quiz?.questions || [];
   };
 
-  const [quizBank, setQuizBank] = useState(selectedQuizQuestions());
+  const [quizBank, setQuizBank] = useState(getQuizData());
   const [idx, setIdx] = useState(0);
-  const [currentQuestion, setCurrentQuestion] = useState(quizBank[idx] || {});
+  const [currentQuestion, setCurrentQuestion] = useState(
+    quizBank[idx] || {
+      question: "",
+      choices: ["", "", "", ""],
+      correctIdx: 0,
+    }
+  );
 
-  // Safety check
-  if (!quizBank || quizBank.length === 0) {
+  
+  if (!quizName) {
     return (
       <div className="error-container">
-        <h2>❌ Quiz not found or has no questions</h2>
+        <h2>❌ No quiz selected</h2>
         <button onClick={() => navigate('/manage-quizzes')}>
           ← Back to Manage Quizzes
         </button>
@@ -32,51 +36,116 @@ function EditQuiz() {
     );
   }
 
-  const updateQuiz = (e) => {
-    e.preventDefault();
-    
-    
+  if (!quizBank || quizBank.length === 0) {
+    return (
+      <div className="error-container">
+        <h2>❌ Quiz has no questions</h2>
+        <p>Add your first question to get started!</p>
+        <button onClick={() => {
+          const newQuestion = {
+            question: "",
+            choices: ["", "", "", ""],
+            correctIdx: 0,
+          };
+          setQuizBank([newQuestion]);
+          setCurrentQuestion(newQuestion);
+        }}>
+          ➕ Add First Question
+        </button>
+        <button onClick={() => navigate('/manage-quizzes')}>
+          ← Back to Manage Quizzes
+        </button>
+      </div>
+    );
+  }
+
+  
+  const updateQuizBank = () => {
     const updatedQuizBank = [...quizBank];
     updatedQuizBank[idx] = currentQuestion;
+    setQuizBank(updatedQuizBank);
+    return updatedQuizBank;
+  };
 
-    
-    const updatedAllQuizzes = allQuizzes.map((q) => {
+  
+  const saveToLocalStorage = (updatedQuizBank) => {
+    const currentAllQuizzes = getAllQuizzes();
+    const updatedAllQuizzes = currentAllQuizzes.map((q) => {
       if (q.name === quizName) {
         return {
           ...q,
-          questions: updatedQuizBank
+          questions: updatedQuizBank,
         };
       }
       return q;
     });
-
     setAllQuizzes(updatedAllQuizzes);
-    navigate('/manage-quizzes');
   };
 
   const handleNext = (e) => {
     e.preventDefault();
-    
-    const updatedQuizBank = [...quizBank];
-    updatedQuizBank[idx] = currentQuestion;
-    setQuizBank(updatedQuizBank);
 
 
-    const nextIdx = idx + 1;
-    setIdx(nextIdx);
-    setCurrentQuestion(updatedQuizBank[nextIdx]);
+    const updatedQuizBank = updateQuizBank();
+
+    if (idx < quizBank.length - 1) {
+      const nextIdx = idx + 1;
+      setIdx(nextIdx);
+      setCurrentQuestion(updatedQuizBank[nextIdx]);
+    }
   };
 
   const handlePrevious = (e) => {
     e.preventDefault();
-    
-    const updatedQuizBank = [...quizBank];
-    updatedQuizBank[idx] = currentQuestion;
-    setQuizBank(updatedQuizBank);
 
-    const prevIdx = idx - 1;
-    setIdx(prevIdx);
-    setCurrentQuestion(updatedQuizBank[prevIdx]);
+    const updatedQuizBank = updateQuizBank();
+
+    if (idx > 0) {
+      const prevIdx = idx - 1;
+      setIdx(prevIdx);
+      setCurrentQuestion(updatedQuizBank[prevIdx]);
+    }
+  };
+
+  const handleAddQuestion = (e) => {
+    e.preventDefault();
+
+    const updatedQuizBank = updateQuizBank();
+
+    const newQuestion = {
+      question: "",
+      choices: ["", "", "", ""],
+      correctIdx: 0,
+    };
+
+    const newQuizBank = [...updatedQuizBank, newQuestion];
+    setQuizBank(newQuizBank);
+
+    
+    const newIdx = newQuizBank.length - 1;
+    setIdx(newIdx);
+    setCurrentQuestion(newQuestion);
+    saveToLocalStorage(newQuizBank);
+  };
+
+
+  const handleSave = (e) => {
+    e.preventDefault();
+
+    if (!currentQuestion.question.trim()) {
+      alert("Question cannot be empty!");
+      return;
+    }
+
+    if (currentQuestion.choices.some((choice) => !choice.trim())) {
+      alert("All options must be filled!");
+      return;
+    }
+
+    const updatedQuizBank = updateQuizBank();
+    saveToLocalStorage(updatedQuizBank);
+    alert("Quiz saved successfully!");
+    navigate('/manage-quizzes');
   };
 
   const handleChanges = (e) => {
@@ -150,21 +219,48 @@ function EditQuiz() {
         </div>
 
         <div className="form-actions">
-          {idx > 0 && (
-            <button type="button" onClick={handlePrevious}>
-              ← Previous
-            </button>
-          )}
-          
-          {idx < quizBank.length - 1 ? (
-            <button type="button" onClick={handleNext}>
-              Next →
-            </button>
-          ) : (
-            <button type="button" onClick={updateQuiz}>
-              ✓ Save Changes
-            </button>
-          )}
+          <button 
+            type="button" 
+            onClick={handlePrevious}
+            disabled={idx === 0}
+            style={{ opacity: idx === 0 ? 0.5 : 1, cursor: idx === 0 ? 'not-allowed' : 'pointer' }}
+          >
+            ← Previous
+          </button>
+
+          <button 
+            type="button" 
+            onClick={handleAddQuestion}
+            className="add-question-btn"
+          >
+            ➕ Add
+          </button>
+
+          <button 
+            type="button" 
+            onClick={handleNext}
+            disabled={idx === quizBank.length - 1}
+            style={{ opacity: idx === quizBank.length - 1 ? 0.5 : 1, cursor: idx === quizBank.length - 1 ? 'not-allowed' : 'pointer' }}
+          >
+            Next →
+          </button>
+        </div>
+
+        <div className="save-actions">
+          <button 
+            type="button" 
+            onClick={() => navigate('/manage-quizzes')}
+            className="cancel-btn"
+          >
+            Cancel
+          </button>
+          <button 
+            type="button" 
+            onClick={handleSave}
+            className="save-btn"
+          >
+            ✓ Save & Exit
+          </button>
         </div>
       </form>
     </div>

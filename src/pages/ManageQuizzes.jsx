@@ -4,28 +4,24 @@ import { useNavigate } from "react-router-dom";
 import "./ManageQuizzes.css"
 
 function ManageQuizzes() {
+
   const navigate = useNavigate();
   const [quizzes, setQuizzes] = useState(getAllQuizzes());
 
   const handleEdit = (quizName) => {
-    // Edit logic
     saveQuizName(quizName);
     navigate('/edit-quiz');
   };
 
   const handleDelete = (quizName) => {
-    // Filter out the quiz to delete
     const updatedQuizzes = quizzes.filter((quiz) => quiz.name !== quizName);
-    
-    console.log("Updated quizzes:", updatedQuizzes);
     
     if (updatedQuizzes.length === 0) {
       removeAllQuizzes();
     } else {
       setAllQuizzes(updatedQuizzes);
     }
-    
-    // Update local state to trigger re-render
+      
     setQuizzes(updatedQuizzes);
   };
 

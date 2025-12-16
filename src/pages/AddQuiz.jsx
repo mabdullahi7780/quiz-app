@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { addQuiz } from "../data/questions";
+import { useNavigate } from "react-router-dom";
 import "./AddQuiz.css";
 
 
 function AddQuiz() {
+  const navigate =useNavigate();
   const [quizName, setQuizName] = useState("");
   const [question, setQuestion] = useState({
     question_text: "",
@@ -77,6 +79,7 @@ function AddQuiz() {
     alert(`Quiz "${quizName}" published with ${quiz.length} questions!`);
     setQuiz([]);
     setQuizName("");
+    navigate("/manage-quizzes");
   };
 
   return (
